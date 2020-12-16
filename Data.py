@@ -2,7 +2,7 @@
 """
 Created on Sat Jan 25 14:34:59 2020
 
-@author: Marco
+@author: Marco Zaror
 """
 
 import json
