@@ -32,7 +32,6 @@ def main(news_provider: str):
 
     links = web_scrapper.look_for_links()
     for link in tqdm(links):
-        print(link)
         summary = web_scrapper.grab_summary(link)
         title = web_scrapper.grab_title(link)
         article = web_scrapper.grab_article(link)
@@ -41,7 +40,6 @@ def main(news_provider: str):
         new_content[key]["summary"] = summary
         new_content[key]["title"] = title
         new_content[key]["article"] = article
-        print(title)
         key += 1
 
     data_manager.update_content(new_content)
