@@ -1,46 +1,50 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Sat Jan 25 14:34:59 2020
-
-@author: Marco Zaror
-"""
 
 import json
+import logging
 import os
+import pathlib
+from typing import Dict
 
-class Data:
-    def __init__(self):
+logger = logging.getLogger("webScrapper")
+
+
+class DataManager:
+    def __init__(self, news_provider: str):
         self.content = {}
-        self.cont_uniq = {}
-    
-    def update_content(self, new_content):
+        self.content_unique = {}
+        self.output_path = (
+            pathlib.Path().absolute() / "outputs" / f"content_{news_provider}.json"
+        )
+
+    def update_content(self, new_content: Dict):
+        logger.info("Updating content")
         self.content.update(new_content)
-        #return self.content
-    
-    def load_content(self, path):
+
+    def load_content(self, path: str = None) -> Dict:
+        logger.info("Loading content")
+        if path is None:
+            path = self.output_path
+
         if os.path.exists(path):
-            with open(path, 'r') as fp:
+            with open(path, "r") as fp:
                 self.content = json.load(fp)
+        else:
+            self.content = dict()
         return self.content
-    
-    def write_content(self, path):
-        with open(path, 'w') as fp:
-            json.dump(self.cont_uniq, fp)
-    
-    def remove_dup(self):
-        i=0
-        for key,value in self.content.items():
-            if value not in self.cont_uniq.values():
-                self.cont_uniq[i] = value
+
+    def write_content(self, path: str = None):
+        logger.info("Writing content")
+        if path is None:
+            path = self.output_path
+
+        with open(path, "w") as fp:
+            json.dump(self.content_unique, fp)
+
+    def remove_duplicates(self):
+        logger.info("Removing duplicates")
+        i = 0
+        for key, value in self.content.items():
+            if value not in self.content_unique.values():
+                self.content_unique[i] = value
                 i += 1
-        #return self.cont_uniq
-        
-            
-'''            
-result_dm = {}
-i=0
-for key,value in data_dm.items():
-    if value not in result_dm.values():
-        result_dm[i] = value
-        i += 1
-'''
