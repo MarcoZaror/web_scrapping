@@ -19,9 +19,11 @@ Scrapping.py
     - grab_title: Self-explanatory
     - grab_article: Self-explanatory
     
-main.py
-  - Run the software
+Script: web_scrapping_news.py
+  - Runs the system
   - Steps:
     - Starts from a list of seeds (web urls)
     - From each seed, extracts all the potential news links
     - For each link, check that it is news and grab the title, article and summary
+
+  - Example usage: python scripts/web_scrapping_news.py --news_provider=BBC
